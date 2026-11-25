@@ -1,0 +1,266 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0a0b0a">
+  <meta name="description" content="CampusBite Kitchen OS — Campus restaurant management system">
+  <title>CampusBite — Kitchen OS</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/motion.css">
+</head>
+
+<body>
+  <style>
+    #admin-login{background:radial-gradient(ellipse at 20% 15%,rgba(184,243,74,.13),transparent 38%),radial-gradient(ellipse at 85% 85%,rgba(38,190,140,.12),transparent 35%),#080d12!important;backdrop-filter:blur(16px)}
+    #admin-login .login-shell{width:min(100%,440px);padding:38px;background:rgba(17,27,34,.94);border:1px solid rgba(184,243,74,.2);border-radius:24px;box-shadow:0 28px 90px rgba(0,0,0,.48);color:#f4f7f2;font-family:inherit;position:relative;overflow:hidden}
+    #admin-login .login-shell:before{content:"";position:absolute;inset:0 0 auto;height:3px;background:linear-gradient(90deg,#b8f34a,#38c99a,transparent)}
+    #admin-login .login-brand{display:flex;align-items:center;gap:13px;margin-bottom:30px}
+    #admin-login .login-mark{width:48px;height:48px;border-radius:15px;display:grid;place-items:center;background:rgba(184,243,74,.12);color:#b8f34a;font-size:23px}
+    #admin-login .login-kicker{font-size:11px;letter-spacing:2px;color:#b8f34a;font-weight:800}
+    #admin-login h2{font-size:27px;letter-spacing:-1px;margin:0 0 8px}
+    #admin-login .login-sub{color:#9baab4;line-height:1.6;margin:0 0 26px;font-size:14px}
+    #admin-login label{display:block;color:#dce5e4;font-size:13px;font-weight:650;margin:16px 0 8px}
+    #admin-login input{width:100%;box-sizing:border-box;padding:14px 15px;border:1px solid #30414a;border-radius:11px;background:#0b141a;color:#fff;outline:none;font:inherit;transition:border-color .2s,box-shadow .2s}
+    #admin-login input:focus{border-color:#b8f34a;box-shadow:0 0 0 3px rgba(184,243,74,.12)}
+    #admin-login .login-submit{width:100%;margin-top:23px;padding:15px;border:0;border-radius:11px;background:linear-gradient(100deg,#c8fb68,#9cdd37);color:#11190b;font-weight:800;font-size:14px;cursor:pointer;transition:transform .2s,filter .2s}
+    #admin-login .login-submit:hover{transform:translateY(-2px);filter:brightness(1.06)}
+    #admin-login .login-foot{margin:22px 0 0;text-align:center;color:#72828a;font-size:11px}
+    #admin-login-error{min-height:18px;margin:12px 0 0;color:#ff8585;font-size:13px}
+    @media(max-width:480px){#admin-login .login-shell{padding:28px 22px;border-radius:18px}}
+  </style>
+  <div id="admin-login" style="position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;padding:20px">
+    <form id="admin-login-form" class="login-shell">
+      <div class="login-brand">
+        <div class="login-mark"><i data-lucide="utensils-crossed"></i></div>
+        <div><div class="login-kicker">CAMPUSBITE</div><div style="font-size:12px;color:#9baab4;letter-spacing:1.4px">KITCHEN MANAGEMENT</div></div>
+      </div>
+      <h2>Welcome back</h2>
+      <p class="login-sub">Sign in to your workspace and keep your campus kitchen running smoothly.</p>
+      <label for="admin-email">Email address</label>
+      <input id="admin-email" type="email" required autocomplete="username" placeholder="admin@campusbite.local">
+      <label for="admin-password">Password</label>
+      <input id="admin-password" type="password" required autocomplete="current-password" placeholder="Enter your password">
+      <button type="submit" class="login-submit">Sign in to dashboard <span aria-hidden="true">→</span></button>
+      <p id="admin-login-error" role="alert"></p>
+      <p class="login-foot">CampusBite · Kitchen OS</p>
+    </form>
+  </div>
+  <!-- Ambient background -->
+  <div class="ambient ambient-one"></div>
+  <div class="ambient ambient-two"></div>
+  <div class="ambient-grid"></div>
+
+  <div class="app">
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <div class="brand-mark">
+          <i data-lucide="utensils"></i>
+        </div>
+
+        <div class="brand-copy">
+          <strong id="brand-name">CampusBite</strong>
+          <span>KITCHEN OS <span class="brand-live"></span></span>
+        </div>
+      </div>
+
+      <div class="nav-section">WORKSPACE</div>
+
+      <nav class="nav">
+        <button class="nav-btn active" data-view="overview">
+          <i data-lucide="layout-dashboard"></i>
+          <span>Overview</span>
+        </button>
+
+        <button class="nav-btn" data-view="orders">
+          <i data-lucide="receipt"></i>
+          <span>Orders</span>
+          <span class="nav-badge" id="nav-order-count">0</span>
+        </button>
+
+        <button class="nav-btn" data-view="menu">
+          <i data-lucide="utensils-crossed"></i>
+          <span>Menu</span>
+        </button>
+
+        <button class="nav-btn" data-view="categories">
+          <i data-lucide="layers"></i>
+          <span>Categories</span>
+        </button>
+
+        <button class="nav-btn" data-view="tables">
+          <i data-lucide="layout-grid"></i>
+          <span>Tables</span>
+        </button>
+
+        <button class="nav-btn" data-view="inventory">
+          <i data-lucide="package"></i>
+          <span>Inventory</span>
+        </button>
+
+        <div class="nav-section">MANAGEMENT</div>
+
+        <button class="nav-btn" data-view="customers">
+          <i data-lucide="users"></i>
+          <span>Customers</span>
+        </button>
+
+        <button class="nav-btn" data-view="staff">
+          <i data-lucide="contact-round"></i>
+          <span>Staff</span>
+        </button>
+
+        <div class="nav-section">INSIGHTS</div>
+
+        <button class="nav-btn" data-view="analytics">
+          <i data-lucide="chart-no-axes-combined"></i>
+          <span>Analytics</span>
+        </button>
+
+        <button class="nav-btn" data-view="settings">
+          <i data-lucide="settings"></i>
+          <span>Settings</span>
+        </button>
+      </nav>
+
+      <!-- Sidebar footer -->
+      <div class="sidebar-foot">
+        <div class="sidebar-status">
+          <span class="status-pulse"></span>
+          <span>System operational</span>
+        </div>
+
+        <button class="profile-chip" id="profile-btn" type="button">
+          <img class="avatar" data-admin-photo alt="Admin avatar">
+
+          <div class="profile-copy">
+            <strong data-admin-name>Admin</strong>
+            <small data-admin-role>Manager</small>
+          </div>
+
+          <i data-lucide="chevron-up"></i>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main workspace -->
+    <div class="workspace">
+
+      <!-- Topbar -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="icon-btn mobile-nav" id="open-side" aria-label="Open sidebar">
+            <i data-lucide="menu"></i>
+          </button>
+
+          <button class="icon-btn desktop-nav" id="collapse" aria-label="Collapse sidebar">
+            <i data-lucide="panel-left"></i>
+          </button>
+
+          <div class="search">
+            <i data-lucide="search"></i>
+            <input id="global-search" type="search" placeholder="Search anything..." autocomplete="off">
+            <kbd>⌘ K</kbd>
+          </div>
+        </div>
+
+        <div class="topbar-meta">
+          <div class="topbar-time">
+            <span class="clock-dot"></span>
+            <span class="live-clock" id="live-clock"></span>
+          </div>
+
+          <button class="icon-btn notification-btn" id="notify-btn" aria-label="Notifications">
+            <i data-lucide="bell"></i>
+            <span id="notice-dot" class="notification-dot"></span>
+          </button>
+
+          <a class="btn btn-ghost btn-sm student-link" href="student.html">
+            <i data-lucide="external-link"></i>
+            Student app
+          </a>
+        </div>
+      </header>
+
+      <!-- Notifications -->
+      <div class="notice-menu" id="notice-menu">
+        <div id="notice-list"></div>
+      </div>
+
+      <!-- Profile menu -->
+      <div class="profile-menu" id="profile-menu">
+        <div class="notice-item">
+          <strong data-admin-name></strong>
+          <div data-admin-role></div>
+        </div>
+
+        <button class="btn btn-ghost" id="go-student">
+          Open student experience
+        </button>
+        <button class="btn btn-ghost" id="admin-logout" type="button">
+          Logout
+        </button>
+      </div>
+
+      <!-- Dynamic page content -->
+      <main class="content" data-view-root>
+      </main>
+    </div>
+  </div>
+
+  <!-- Mobile overlay -->
+  <div class="overlay" id="overlay"></div>
+
+  <!-- Modal -->
+  <div class="modal" id="modal" role="dialog" aria-modal="true"></div>
+
+  <!-- Drawer -->
+  <aside class="drawer" id="drawer"></aside>
+
+  <!-- Toast notifications -->
+  <div class="toast-wrap" id="toasts"></div>
+
+  <!-- Core -->
+  <script src="js/storage.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/ui.js"></script>
+
+  <!-- Modules -->
+  <script src="js/charts.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script src="js/orders.js"></script>
+  <script src="js/menu.js"></script>
+  <script src="js/categories.js"></script>
+  <script src="js/tables.js"></script>
+  <script src="js/inventory.js"></script>
+  <script src="js/customers.js"></script>
+  <script src="js/staff.js"></script>
+  <script src="js/analytics.js"></script>
+  <script src="js/settings.js"></script>
+
+  <!-- Application -->
+  <script src="js/app.js"></script>
+
+  <!-- Initialize icons -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      if (window.lucide) lucide.createIcons();
+    });
+  </script>
+</body>
+</html>

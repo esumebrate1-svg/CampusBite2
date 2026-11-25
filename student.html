@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CampusBite — Student</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/student.css">
+  <link rel="stylesheet" href="css/motion.css">
+</head>
+<body class="student-body">
+  <header class="s-nav">
+    <div class="s-brand"><i data-lucide="utensils"></i> CampusBite</div>
+    <a href="#" class="desk active" data-sview="home">Discover</a>
+    <a href="#" class="desk" data-sview="menu">Menu</a>
+    <a href="#" class="desk" data-sview="orders">My orders</a>
+    <a href="#" class="desk" data-sview="track">Track</a>
+    <button class="btn btn-primary" id="scan-cafe-btn" type="button">
+  <i data-lucide="qr-code"></i> Scan Cafe QR
+</button>
+    <div class="grow">
+      <a class="btn btn-ghost" href="index.html">Kitchen</a>
+    </div>
+  </header>
+
+  <div id="view-home" class="s-view active"></div>
+  <div id="view-menu" class="s-view"></div>
+  <div id="view-orders" class="s-view"></div>
+  <div id="view-checkout" class="s-view"></div>
+  <div id="view-track" class="s-view"></div>
+  <div id="cafe-scanner" class="section" style="display:none">
+  <h2>Scan a Cafe QR Code</h2>
+  <p>Scan the QR code displayed at your cafeteria to open its menu.</p>
+
+  <div id="qr-reader" style="max-width:500px"></div>
+
+  <button class="btn btn-ghost" id="close-scanner" type="button">
+    Close Scanner
+  </button>
+
+  <p id="qr-message"></p>
+</div>
+  <div id="view-success" class="s-view"></div>
+
+  <button class="cart-fab" id="cart-fab"><i data-lucide="shopping-bag"></i> Tray <span id="cart-count">0</span></button>
+  <aside class="cart-panel" id="cart-panel">
+    <div class="cart-h actions" style="justify-content:space-between">
+      <h2 style="margin:0">Your tray</h2>
+      <button class="btn btn-ghost btn-sm" id="clear-cart">Clear</button>
+    </div>
+    <div class="cart-b" id="cart-body"></div>
+    <div class="cart-f">
+      <div class="low-row"><span>Subtotal</span><strong id="cart-sub">0 ETB</strong></div>
+      <div class="low-row"><span>Total</span><strong id="cart-total">0 ETB</strong></div>
+      <button class="btn btn-primary" style="width:100%;margin-top:12px" id="checkout-btn">Checkout</button>
+    </div>
+  </aside>
+  <nav class="s-bottom">
+    <a href="#" data-sview="home">Discover</a>
+    <a href="#" data-sview="menu">Menu</a>
+    <a href="#" data-sview="orders">Orders</a>
+    <a href="#" data-sview="track">Track</a>
+  </nav>
+  <div class="overlay" id="overlay"></div>
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://unpkg.com/html5-qrcode"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/student.js"></script>
+  <script src="js/qr-scan.js"></script>
+</body>
+</html>
